@@ -1,10 +1,10 @@
-# get_expert_pose_node:
-#   ros__parameters:
-#     kinematic_only: False
-#     underactuation: True
-#     config_folder: "ok"
-#     file_path: "/home/alex/additive_manufacturing/result/datasets"
-#     object_name: coude
+get_expert_pose_node:
+  ros__parameters:
+    kinematic_only: False
+    underactuation: True
+    config_folder: "/my_robot_training/ressources"
+    file_path: "/home/alex/additive_manufacturing/result/datasets"
+    object_name: coude
 
 test_yaml_node:
   ros__parameters:

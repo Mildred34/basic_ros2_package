@@ -10,26 +10,27 @@ from launch_ros.actions import Node
 def generate_launch_description():
     ld = LaunchDescription()
 
-    # Your nodes 
-    # get_expert_pose_node = Node(
-    #     package="my_robot_training",
-    #     executable="get_expert_pose"
-    # )
-
     config = os.path.join(
         get_package_share_directory('my_robot_training'),
         'config',
         'configs.yaml'
         )
 
+    # Your nodes 
+    get_expert_pose_node = Node(
+        package="my_robot_training",
+        executable="get_expert_pose.py",
+        parameters = [config]
+    )
+
     test_yaml_node = Node(
         package="my_robot_training",
-        executable="testyaml"
+        executable="testyaml.py",
         parameters = [config]
     )
 
     # Adding them to the launch description
-    # ld.add_action(get_expert_pose_node)
+    ld.add_action(get_expert_pose_node)
     ld.add_action(test_yaml_node)
 
     return ld

@@ -39,6 +39,7 @@ ament_python_install_package(${PROJECT_NAME})
 # Install Python executables
 install(PROGRAMS
   scripts/testyaml.py
+  scripts/get_expert_pose.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
