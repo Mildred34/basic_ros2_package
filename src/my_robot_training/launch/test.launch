@@ -1,0 +1,25 @@
+# launch ros module
+from launch import LaunchDescription
+from launch_ros.actions import Node
+
+# Your launch file must contain this function: generate_launch_description(), 
+# and must return a LaunchDescription object.
+
+def generate_launch_description():
+    ld = LaunchDescription()
+
+    # Your nodes 
+    talker_node = Node(
+        package="demo_nodes_cpp",
+        executable="talker",
+    )
+    listener_node = Node(
+        package="demo_nodes_py",
+        executable="listener"
+    )
+
+    # Adding them to the launch description
+    ld.add_action(talker_node)
+    ld.add_action(listener_node)
+
+    return ld
