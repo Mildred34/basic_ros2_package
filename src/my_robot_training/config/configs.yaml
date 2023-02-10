@@ -6,6 +6,10 @@ get_expert_pose_node:
     file_path: "/home/alex/additive_manufacturing/result/datasets"
     object_name: coude
 
+save_poses_node:
+  ros__parameters:
+    file_path: "/home/alex/additive_manufacturing/result/datasets"
+
 test_yaml_node:
   ros__parameters:
     bool_value: True

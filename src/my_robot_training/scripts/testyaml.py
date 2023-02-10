@@ -22,6 +22,7 @@ class TestYAMLParams(Node):
             ])
 
         param_int = self.get_parameter("int_number").get_parameter_value().integer_value
+        param_bool = self.get_parameter("bool_value").get_parameter_value().bool_value
 
         self.get_logger().info('My log message {}'.format(param_int))
 
