@@ -1,0 +1,23 @@
+get_expert_pose_node:
+  ros__parameters:
+    kinematic_only: False
+    underactuation: True
+    config_folder: "/training_py/ressources"
+    file_path: "/home/alex/additive_manufacturing/result/datasets"
+    object_name: coude
+
+save_poses_node:
+  ros__parameters:
+    file_path: "/home/alex/additive_manufacturing/result/datasets"
+
+test_yaml_node:
+  ros__parameters:
+    bool_value: True
+    int_number: 5
+    float_number: 3.14
+    str_text: "Hello Universe"
+    bool_array: [True, False, True]
+    int_array: [10, 11, 12, 13]
+    float_array: [7.5, 400.4]
+    str_array: ['Nice', 'more', 'params']
+    bytes_array: [0x01, 0xF1, 0xA2]
