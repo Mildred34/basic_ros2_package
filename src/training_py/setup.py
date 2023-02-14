@@ -32,7 +32,8 @@ setup(
         # nom_du_noeud = nom_folder.nomfufichiersource:main
         'console_scripts': [
             'get_expert_pose_node = training_py.get_expert_pose:main',
-            'test_yaml_node = training_py.testyaml:main'
+            'test_yaml_node = training_py.testyaml:main',
+            'save_poses_node = training_py.save_poses:main'
         ],
     },
 )

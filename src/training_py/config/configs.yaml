@@ -4,11 +4,12 @@ get_expert_pose_node:
     underactuation: True
     config_folder: "/training_py/ressources"
     file_path: "/home/alex/additive_manufacturing/result/datasets"
-    object_name: coude
+    object_name: "coude"
 
 save_poses_node:
   ros__parameters:
     file_path: "/home/alex/additive_manufacturing/result/datasets"
+    object_name: "coude"
 
 test_yaml_node:
   ros__parameters:
