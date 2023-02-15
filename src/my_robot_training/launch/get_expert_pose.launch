@@ -3,18 +3,20 @@ from typing import List
 
 import yaml
 from ament_index_python.packages import get_package_share_directory
+
 # launch ros module
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import (
-    Command,
-    FindExecutable,
-    LaunchConfiguration,
-    PathJoinSubstitution,
-)
+
+# from launch_ros.substitutions import FindPackageShare
+# from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+# from launch.launch_description_sources import PythonLaunchDescriptionSource
+# from launch.substitutions import (
+#     Command,
+#     FindExecutable,
+#     LaunchConfiguration,
+#     PathJoinSubstitution,
+# )
 
 
 # Your launch file must contain this function: generate_launch_description(), 
@@ -22,33 +24,33 @@ from launch.substitutions import (
 
 def generate_launch_description() -> LaunchDescription:
 
-    # Declare all launch arguments
-    declared_arguments = generate_declared_arguments()
+    # # Declare all launch arguments
+    # declared_arguments = generate_declared_arguments()
 
-    # Get substitution for all arguments
-    description_package = LaunchConfiguration("description_package")
-    description_filepath = LaunchConfiguration("description_filepath")
-    moveit_config_package = "panda_moveit_config"
-    robot_type = LaunchConfiguration("robot_type")
-    rviz_config = LaunchConfiguration("rviz_config")
-    use_sim_time = LaunchConfiguration("use_sim_time")
-    ign_verbosity = LaunchConfiguration("ign_verbosity")
-    log_level = LaunchConfiguration("log_level")
+    # # Get substitution for all arguments
+    # description_package = LaunchConfiguration("description_package")
+    # description_filepath = LaunchConfiguration("description_filepath")
+    # moveit_config_package = "panda_moveit_config"
+    # robot_type = LaunchConfiguration("robot_type")
+    # rviz_config = LaunchConfiguration("rviz_config")
+    # use_sim_time = LaunchConfiguration("use_sim_time")
+    # ign_verbosity = LaunchConfiguration("ign_verbosity")
+    # log_level = LaunchConfiguration("log_level")
 
-    # URDF
-    _robot_description_xml = Command(
-        [
-            PathJoinSubstitution([FindExecutable(name="xacro")]),
-            " ",
-            PathJoinSubstitution(
-                [FindPackageShare(description_package), description_filepath]
-            ),
-            " ",
-            "name:=",
-            robot_type,
-        ]
-    )
-    robot_description = {"robot_description": _robot_description_xml}
+    # # URDF
+    # _robot_description_xml = Command(
+    #     [
+    #         PathJoinSubstitution([FindExecutable(name="xacro")]),
+    #         " ",
+    #         PathJoinSubstitution(
+    #             [FindPackageShare(description_package), description_filepath]
+    #         ),
+    #         " ",
+    #         "name:=",
+    #         robot_type,
+    #     ]
+    # )
+    # robot_description = {"robot_description": _robot_description_xml}
 
     ld = LaunchDescription()
 
@@ -78,8 +80,8 @@ def generate_launch_description() -> LaunchDescription:
     )
 
     # Adding them to the launch description
-    ld.add_action(get_expert_pose_node)
-    ld.add_action(test_yaml_node)
+    # ld.add_action(get_expert_pose_node)
+    # ld.add_action(test_yaml_node)
     ld.add_action(get_expert_pose_node_cpp)
 
     return ld

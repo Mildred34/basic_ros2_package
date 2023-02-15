@@ -4,7 +4,7 @@
 GetPose::GetPose()
 : Node(
     "get_expert_pose_node_cpp",
-    rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)),
+    rclcpp::NodeOptions()), // .automatically_declare_parameters_from_overrides(true)
   count_(0)
 {
   // Declare parameters ; Default value here
@@ -29,10 +29,44 @@ GetPose::GetPose()
   auto move_group_node = rclcpp::Node::make_shared("move_group_interface_tutorial");
   rclcpp::executors::SingleThreadedExecutor executor;
   executor.add_node(move_group_node);
-  executor.spin();
+  spinner = std::thread([&executor]() { executor.spin(); });
+  // executor.spin();
 
+  // Need the movegroup node that provides the robot description
   auto move_group_interface =
     moveit::planning_interface::MoveGroupInterface(move_group_node, PLANNING_GROUP);
+
+  // Construct and initialize MoveItVisualTools
+  // "panda_link0" base link of panda_arm
+  auto moveit_visual_tools = moveit_visual_tools::MoveItVisualTools{
+      move_group_node, "panda_link0", rviz_visual_tools::RVIZ_MARKER_TOPIC,
+      move_group_interface.getRobotModel()};
+  moveit_visual_tools.deleteAllMarkers();
+  moveit_visual_tools.loadRemoteControl();
+
+  // Create a closures for visualization
+  // lambda functions use later
+  auto const draw_title = [&moveit_visual_tools](auto text) {
+    auto const text_pose = [] {
+      auto msg = Eigen::Isometry3d::Identity();
+      msg.translation().z() = 1.0;
+      return msg;
+    }();
+    moveit_visual_tools.publishText(text_pose, text, rviz_visual_tools::WHITE,
+                                    rviz_visual_tools::XLARGE);
+  };
+
+  auto const prompt = [&moveit_visual_tools](auto text) {
+    moveit_visual_tools.prompt(text);
+  };
+
+  auto const draw_trajectory_tool_path =
+      [&moveit_visual_tools,
+      jmg = move_group_interface.getRobotModel()->getJointModelGroup(
+          "panda_arm")](auto const trajectory) {
+        moveit_visual_tools.publishTrajectoryLine(trajectory, jmg);
+      };
+
 
   // Set a target Pose
   auto const target_pose = [] {
@@ -46,6 +80,9 @@ GetPose::GetPose()
   move_group_interface.setPoseTarget(target_pose);
 
   // Create a plan to that target pose
+  prompt("Press 'Next' in the RvizVisualToolsGui window to plan");
+  draw_title("Planning");
+  moveit_visual_tools.trigger();
   auto const [success, plan] = [&move_group_interface] {
     moveit::planning_interface::MoveGroupInterface::Plan msg;
     auto const ok = static_cast<bool>(move_group_interface.plan(msg));
@@ -54,9 +91,15 @@ GetPose::GetPose()
 
   // Execute the plan
   if (success) {
-    RCLCPP_INFO(logger, "Planing OK, running in progress...");
+    draw_trajectory_tool_path(plan.trajectory_);
+    moveit_visual_tools.trigger();
+    prompt("Press 'Next' in the RvizVisualToolsGui window to execute");
+    draw_title("Executing");
+    moveit_visual_tools.trigger();
     move_group_interface.execute(plan);
   } else {
+    draw_title("Planning Failed!");
+    moveit_visual_tools.trigger();
     RCLCPP_ERROR(logger, "Planing failed!");
   }
 
@@ -83,7 +126,9 @@ void GetPose::timer_callback()
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<GetPose>());
+  auto node = std::make_shared<GetPose>();
+  rclcpp::spin(node);
   rclcpp::shutdown();
+  node->spinner.join();
   return 0;
 }

@@ -12,6 +12,7 @@ find_package(rclpy REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
+find_package(moveit_visual_tools REQUIRED)
 
 install(DIRECTORY
   launch config
@@ -24,7 +25,10 @@ include_directories(include)
 
 # Create Cpp executable
 add_executable(talker src/get_expert_pose_cpp.cpp) # Premier arg = nom de l'exe
-ament_target_dependencies(talker rclcpp std_msgs moveit_ros_planning_interface)
+ament_target_dependencies(talker rclcpp 
+                                 std_msgs 
+                                 moveit_ros_planning_interface 
+                                 moveit_visual_tools)
 
 # Install Cpp executables
 install(TARGETS
