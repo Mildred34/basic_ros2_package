@@ -19,6 +19,7 @@ class GetPose : public rclcpp::Node
 {
 public:
   GetPose();
+  ~GetPose()=default;
 
   std::thread spinner;
 

@@ -1,0 +1,9 @@
+[submodule "src/panda_ign_moveit2"]
+	path = src/panda_ign_moveit2
+	url = git@github.com:Mildred34/panda_ign_moveit2.git
+[submodule "src/ros_ign"]
+	path = src/ros_ign
+	url = git@github.com:Mildred34/ros_gz.git
+[submodule "src/ign_ros2_control"]
+	path = src/ign_ros2_control
+	url = git@github.com:ros-controls/gz_ros2_control.git

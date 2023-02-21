@@ -5,3 +5,7 @@ log/
 *.swp
 *.bak
 *-workspace
+
+# Text file
+*.txt
+*.orig
