@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from .robot_simulation_pkg.robotSimulation import RobotSimulation
+from robot_simulation_pkg.robotSimulation import RobotSimulation
 
 
 class GetPose(Node):

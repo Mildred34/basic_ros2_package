@@ -1,32 +1,21 @@
 cmake_minimum_required(VERSION 3.8)
-project(my_robot_training)
+project(training_py)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 # find dependencies
-find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rclpy REQUIRED)
 
 install(DIRECTORY
-  launch config
+  config data launch resource
   DESTINATION share/${PROJECT_NAME}
 )
 
 # Install Python modules
 ament_python_install_package(${PROJECT_NAME})
-
-
-set(grasp_capture_lib
-  my_robot_training
-)
-
-## Define a library target called robot_simulation_pkg
-add_library(${grasp_capture_lib} SHARED
-  src/object_simulation.cpp
-)
 
 # Install Python executables
 install(PROGRAMS
