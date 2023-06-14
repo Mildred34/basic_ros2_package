@@ -1,14 +1,14 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 import os
 from glob import glob
 
 main_package = 'training_py'
-robot_simulation_pkg = main_package + "/robot_simulation_pkg"
+robot_simulation_pkg = "robot_simulation_pkg"
 
 setup(
     name=main_package,
     version='0.0.0',
-    packages=[main_package,robot_simulation_pkg],
+    packages=find_packages(include=[main_package,robot_simulation_pkg]),
     # Files we want to install, specifically launch files
     data_files=[
         # Install marker file in the package index
